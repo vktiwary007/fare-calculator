@@ -9,7 +9,7 @@ public class Main {
         TransitCalculator obj = new TransitCalculator(5,12);
         System.out.println(obj.unlimited30Price());
 
-        TransitCalculator obj1 = new TransitCalculator(22,50);
+        TransitCalculator obj1 = new TransitCalculator(19,20);
         System.out.println(obj1.unlimited7Price());
 
         TransitCalculator obj2 = new TransitCalculator(6,14);
