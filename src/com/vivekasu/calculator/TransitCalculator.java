@@ -12,7 +12,7 @@ import java.text.DecimalFormat;
  *
  * This class is used to write the business logic for calculating fares for a bus transit system.
  */
-public class TransitCalculator extends RidesPOJO{
+public class TransitCalculator extends RidesPOJO implements CalculatorService {
 
     //types of fares available to end-users like pay-per-ride or 7-day-unlimited etc.
     private int num_of_fares;
@@ -35,6 +35,10 @@ public class TransitCalculator extends RidesPOJO{
     public TransitCalculator(int num_of_days, int num_of_rides ){
         super(num_of_days,num_of_rides );
         this.num_of_fares = Constants.num_of_fares;
+
+        //fares have been added in Constants as these can't be modified by the user.
+        //One can use configuration management to allow admins to update these prices.
+        //Will add this feature later on to make it more decoupled and configurable.
         this._7day_ride =  Constants._7day_ride;
         this.pay_per_ride = Constants.pay_per_ride;
         this._30day_ride = Constants._30day_ride;
@@ -44,6 +48,7 @@ public class TransitCalculator extends RidesPOJO{
      * This method calculates the fare per ride if the user takes 7-day unlimited pass
      * @return the fare per ride based on 7-day unlimited pass
      */
+    @Override
     public double unlimited7Price(){
 
         //Take ceiling as division will return decimals and passes are based on 7 day period only. Can't be anything in-between
@@ -57,6 +62,7 @@ public class TransitCalculator extends RidesPOJO{
      * This method calculates the fare per ride if the user takes 30-day unlimited pass
      * @return the fare per ride based on 30-day unlimited pass
      */
+    @Override
     public double unlimited30Price(){
         //Take ceiling as division will return decimals and passes are based on 30 day period only. Can't be anything in-between
         double pay_per_ride = (Math.ceil((double)getNum_of_days()/30)*_30day_ride)/getNum_of_rides();
@@ -86,6 +92,7 @@ public class TransitCalculator extends RidesPOJO{
      * This method finds the minimum of the fare per ride available to user based on multiple pass options.
      * @return generic message providing the best(minimum) fare per ride option available to user.
      */
+    @Override
     public String getBestFares(){
 
         double[] ride_prices = getRidePrices();
